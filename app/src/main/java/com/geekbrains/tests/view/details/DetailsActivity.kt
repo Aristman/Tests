@@ -12,11 +12,12 @@ import java.util.Locale
 
 class DetailsActivity : AppCompatActivity(), ViewDetailsContract {
 
-    private val presenter: PresenterDetailsContract = DetailsPresenter(this)
+    private val presenter: PresenterDetailsContract = DetailsPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
+        presenter.attach(this)
         setUI()
     }
 
@@ -46,5 +47,10 @@ class DetailsActivity : AppCompatActivity(), ViewDetailsContract {
                 putExtra(TOTAL_COUNT_EXTRA, totalCount)
             }
         }
+    }
+
+    override fun onDestroy() {
+        presenter.detach(this)
+        super.onDestroy()
     }
 }
