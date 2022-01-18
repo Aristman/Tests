@@ -19,44 +19,44 @@ internal class SearchPresenter internal constructor(
     private val repository: GitHubRepository
 ) : PresenterSearchContract, GitHubRepositoryCallback {
 
-    private var _view: ViewContract? = null
-    override val view: ViewSearchContract
-        get() = checkNotNull(_view as ViewSearchContract) { "Error create ViewSearchContract" }
+    override var view: ViewSearchContract? = null
 
     override fun attach(view: ViewContract) {
-        _view = view
+        this.view = view as? ViewSearchContract
     }
 
     override fun detach(view: ViewContract) {
-        _view = null
+        this.view = null
     }
 
     override fun searchGitHub(searchQuery: String) {
-        view.displayLoading(true)
+        view?.displayLoading(true)
         repository.searchGithub(searchQuery, this)
     }
 
     override fun handleGitHubResponse(response: Response<SearchResponse?>?) {
-        view.displayLoading(false)
+        view?.displayLoading(false)
         if (response != null && response.isSuccessful) {
             val searchResponse = response.body()
             val searchResults = searchResponse?.searchResults
             val totalCount = searchResponse?.totalCount
             if (searchResults != null && totalCount != null) {
-                view.displaySearchResults(
+                view?.displaySearchResults(
                     searchResults,
                     totalCount
                 )
             } else {
-                view.displayError("Search results or total count are null")
+                view?.displayError("Search results or total count are null")
             }
         } else {
-            view.displayError("Response is null or unsuccessful")
+            view?.displayError("Response is null or unsuccessful")
         }
     }
 
     override fun handleGitHubError() {
-        view.displayLoading(false)
-        view.displayError()
+        view?.run {
+            displayLoading(false)
+            displayError()
+        }
     }
 }

@@ -23,7 +23,7 @@ internal class DetailsPresenter internal constructor(
     }
 
     override fun attach(view: ViewContract) {
-        this.view = view as ViewDetailsContract
+        this.view = view as? ViewDetailsContract
     }
 
     override fun detach(view: ViewContract) {
