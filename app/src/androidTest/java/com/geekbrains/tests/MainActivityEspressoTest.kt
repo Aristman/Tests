@@ -1,6 +1,7 @@
 package com.geekbrains.tests
 
 import android.view.View
+import android.widget.EditText
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
@@ -10,6 +11,7 @@ import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.pressImeActionButton
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -29,6 +31,35 @@ class MainActivityEspressoTest {
     @Before
     fun setup() {
         scenario = ActivityScenario.launch(MainActivity::class.java)
+    }
+
+    @Test
+    fun editText_IsDisplayed() {
+        onView(withId(R.id.searchEditText))
+            .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun searchButton_IsDisplayed() {
+        onView(withId(R.id.toDetailsActivityButton))
+            .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun searchButton_TextCorrect() {
+        onView(withId(R.id.toDetailsActivityButton))
+            .check(matches(withText("to details")))
+    }
+
+    @Test
+    fun editText_CorrectInputText() {
+        val testText = "test text"
+        scenario.onActivity {
+            val editText: EditText = it.findViewById(R.id.searchEditText)
+            editText.setText(testText)
+        }
+        onView(withId(R.id.searchEditText))
+            .check(matches(withText(testText)))
     }
 
     @Test
