@@ -24,8 +24,9 @@ class BehaviorTest {
     @Before
     fun setup() {
         uiDevice.pressHome()
-        val intent = context.packageManager.getLaunchIntentForPackage(packageName)
-        intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        val intent = context.packageManager.getLaunchIntentForPackage(packageName)?.apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        }
         context.startActivity(intent)
         uiDevice.wait(Until.hasObject(By.pkg(packageName).depth(0)), TIMEOUT)
     }
@@ -49,7 +50,7 @@ class BehaviorTest {
                 Until.findObject(By.res(packageName, "totalCountTextView")),
                 TIMEOUT
             )
-        Assert.assertEquals(changedText.text.toString(), getResultString(696))
+        Assert.assertEquals(changedText.text.toString(), getResultString(697))
     }
 
     @Test
