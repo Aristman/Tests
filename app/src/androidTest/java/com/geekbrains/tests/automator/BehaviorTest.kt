@@ -39,7 +39,7 @@ class BehaviorTest {
     @Test
     fun test_SearchIsPositive() {
         val editText = uiDevice.findObject(By.res(packageName, "searchEditText"))
-        val searchButton = uiDevice.findObject(By.res(packageName, "toDetailsActivityButton"))
+        val searchButton = uiDevice.findObject(By.res(packageName, "searchButton"))
         editText.text = "UiAutomator"
         searchButton.click()
 //        Espresso.onView(ViewMatchers.withId(R.id.searchEditText))
@@ -63,10 +63,33 @@ class BehaviorTest {
         toDetails.click()
         val changedText =
             uiDevice.wait(
-                Until.findObject(By.res(packageName, "totalCountTextView")),
+                Until.findObject(By.res(packageName, "totalCountDetailTextView")),
                 TIMEOUT
             )
         Assert.assertEquals(changedText.text, "Number of results: 0")
+    }
+
+    @Test
+    fun test_ExecuteRequestAndOpenDetailsScreen() {
+        val editText = uiDevice.findObject(By.res(packageName, "searchEditText"))
+        editText.text = "UiAutomator"
+        val requestButton = uiDevice.findObject(By.res(packageName, "searchButton"))
+        val toDetailsButton = uiDevice.findObject(By.res(packageName, "toDetailsActivityButton"))
+        requestButton.click()
+        val mainChangedText =
+            uiDevice.wait(
+                Until.findObject(By.res(packageName, "totalCountTextView")),
+                TIMEOUT
+            )
+        val mainText = mainChangedText.text.toString()
+        Assert.assertNotNull(mainChangedText)
+        toDetailsButton.click()
+        val detailsChangedText =
+            uiDevice.wait(
+                Until.findObject(By.res(packageName, "totalCountDetailTextView")),
+                TIMEOUT
+            )
+        Assert.assertEquals(detailsChangedText.text, mainText)
     }
 
     companion object {
