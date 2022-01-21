@@ -13,6 +13,7 @@ import com.geekbrains.tests.presenter.search.PresenterSearchContract
 import com.geekbrains.tests.presenter.search.SearchPresenter
 import com.geekbrains.tests.repository.GitHubApi
 import com.geekbrains.tests.repository.RepositoryContract
+import com.geekbrains.tests.view.details.DetailsActivity
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Retrofit
@@ -34,7 +35,9 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
 
     private fun setUI() {
         toDetailsActivityButton.setOnClickListener {
-//            startActivity(DetailsActivity.getIntent(this, totalCount))
+            startActivity(DetailsActivity.getIntent(this, totalCount))
+        }
+        searchButton.setOnClickListener {
             presenter.searchGitHub(searchEditText.text.toString())
         }
         setQueryListener()
