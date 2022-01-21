@@ -49,7 +49,7 @@ class BehaviorTest {
                 Until.findObject(By.res(packageName, "totalCountTextView")),
                 TIMEOUT
             )
-        Assert.assertEquals(changedText.text.toString(), "Number of results: 696")
+        Assert.assertEquals(changedText.text.toString(), getResultString(696))
     }
 
     @Test
@@ -66,7 +66,7 @@ class BehaviorTest {
                 Until.findObject(By.res(packageName, "totalCountDetailTextView")),
                 TIMEOUT
             )
-        Assert.assertEquals(changedText.text, "Number of results: 0")
+        Assert.assertEquals(changedText.text, getResultString(0))
     }
 
     @Test
@@ -81,7 +81,7 @@ class BehaviorTest {
                 Until.findObject(By.res(packageName, "totalCountTextView")),
                 TIMEOUT
             )
-        val mainText = mainChangedText.text.toString()
+        val mainText = mainChangedText.text
         Assert.assertNotNull(mainChangedText)
         toDetailsButton.click()
         val detailsChangedText =
@@ -91,6 +91,9 @@ class BehaviorTest {
             )
         Assert.assertEquals(detailsChangedText.text, mainText)
     }
+
+    private fun getResultString(number: Int): String =
+        "Number of results: $number"
 
     companion object {
         private const val TIMEOUT = 5000L
