@@ -35,7 +35,7 @@ class DetailsPresenterTest {
         presenter.onIncrement()
         scenario.onActivity {
             val resultText = it.findViewById<TextView>(R.id.totalCountTextView)
-            assertEquals(resultText.text, getResultString(1))
+            assertEquals(resultText.text, getTextNumberOfResult(1))
         }
     }
 
@@ -45,7 +45,7 @@ class DetailsPresenterTest {
         presenter.onDecrement()
         scenario.onActivity {
             val resultText = it.findViewById<TextView>(R.id.totalCountTextView)
-            assertEquals(resultText.text, getResultString(7))
+            assertEquals(resultText.text, getTextNumberOfResult(7))
         }
     }
 
@@ -54,7 +54,4 @@ class DetailsPresenterTest {
         scenario.onActivity { presenter.detach(it) }
         scenario.close()
     }
-
-    private fun getResultString(count: Int): String =
-        String.format("Number of results: %d", count)
 }
