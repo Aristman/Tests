@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.geekbrains.tests.presenter.details.DetailsPresenter
+import com.geekbrains.tests.view.ViewContract
 import com.geekbrains.tests.view.details.DetailsActivity
 import junit.framework.TestCase.assertEquals
 import org.junit.After
@@ -26,7 +27,7 @@ class DetailsPresenterTest {
         presenter = DetailsPresenter()
         scenario = ActivityScenario.launch(DetailsActivity::class.java)
         scenario.onActivity {
-            presenter.attach(it)
+            presenter.attach(it as ViewContract)
         }
     }
 
@@ -51,7 +52,7 @@ class DetailsPresenterTest {
 
     @After
     fun close() {
-        scenario.onActivity { presenter.detach(it) }
+        scenario.onActivity { presenter.detach(it as ViewContract) }
         scenario.close()
     }
 }
